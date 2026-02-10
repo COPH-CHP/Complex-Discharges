@@ -1,0 +1,1008 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CHW/CHR Claims-Based Definition — 2025 (Through Aug)</title>
+
+  <style>
+    :root{
+      --bg:#070b16;
+      --panel:rgba(255,255,255,.06);
+      --panel2:rgba(255,255,255,.09);
+      --border:rgba(255,255,255,.14);
+
+      --text:rgba(255,255,255,.94);
+      --muted:rgba(255,255,255,.72);
+      --muted2:rgba(255,255,255,.58);
+
+      --turq:#00d1de;
+      --cherry:#ff3b6b;
+      --gold:#ffd166;
+      --violet:#c4b5fd;
+      --lime:#a7f3d0;
+
+      --claims: var(--cherry);
+      --providers: var(--gold);
+
+      --shadow: 0 22px 70px rgba(0,0,0,.45);
+      --radius: 22px;
+      --radius2: 28px;
+
+      /* Bigger, friendlier typography */
+      --fs-hero: clamp(26px, 2.1vw, 38px);
+      --fs-h2: clamp(18px, 1.4vw, 24px);
+      --fs-body: clamp(15px, 1.05vw, 18px);
+      --fs-small: clamp(13px, .95vw, 15px);
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      line-height: 1.45;
+      background:
+        radial-gradient(1200px 700px at 15% 10%, rgba(0,209,222,.22), transparent 58%),
+        radial-gradient(900px 650px at 88% 18%, rgba(255,59,107,.18), transparent 58%),
+        radial-gradient(900px 650px at 50% 95%, rgba(255,209,102,.15), transparent 60%),
+        radial-gradient(900px 650px at 20% 95%, rgba(196,181,253,.14), transparent 60%),
+        linear-gradient(180deg, #050814 0%, #070b16 35%, #070b16 100%);
+    }
+
+    /* ===== Full width container ===== */
+    .page{
+      width:100%;
+      padding: 22px 18px 80px;
+    }
+    .wrap{
+      width:100%;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    a{ color:inherit; text-decoration: none; }
+
+    /* ===== Topbar (sticky) ===== */
+    .topbar{
+      display:flex;
+      gap:14px;
+      align-items:center;
+      justify-content:space-between;
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 10px;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      min-width: 320px;
+    }
+    .logo{
+      width: 42px;
+      height: 42px;
+      border-radius: 16px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(0,209,222,.95), rgba(0,209,222,.12) 58%, transparent 60%),
+        radial-gradient(circle at 70% 70%, rgba(255,59,107,.95), rgba(255,59,107,.10) 55%, transparent 60%),
+        rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow: 0 12px 26px rgba(0,0,0,.30);
+    }
+    .brand h1{
+      font-size: 15px;
+      margin: 0;
+      font-weight: 800;
+      letter-spacing: .25px;
+    }
+    .brand p{
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+
+    .nav{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      align-items:center;
+    }
+    .pill{
+      cursor:pointer;
+      user-select:none;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.06);
+      padding: 9px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      color: var(--muted);
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+      display:flex; align-items:center; gap:8px;
+    }
+    .pill:hover{ transform: translateY(-1px); background: rgba(255,255,255,.09); }
+    .pill.active{
+      color: var(--text);
+      border-color: rgba(255,255,255,.28);
+      background: rgba(255,255,255,.12);
+    }
+    .pill .dot{
+      width:10px; height:10px; border-radius:50%;
+      background: rgba(255,255,255,.25);
+      box-shadow: 0 0 0 4px rgba(255,255,255,.06);
+    }
+    .pill.active .dot{
+      background: var(--turq);
+      box-shadow: 0 0 0 4px rgba(0,209,222,.12);
+    }
+
+    /* ===== Utilities ===== */
+    .card{
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position: relative;
+    }
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-220px -220px auto auto;
+      width: 460px;
+      height: 460px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.16), transparent 60%);
+      pointer-events:none;
+      transform: rotate(12deg);
+      opacity:.55;
+    }
+    .inner{ padding: 18px; position: relative; z-index: 1; }
+
+    .section{ margin-top: 16px; }
+    .grid2{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 16px;
+      align-items:stretch;
+    }
+    @media (max-width: 1000px){
+      .grid2{ grid-template-columns: 1fr; }
+      .brand{ min-width: unset; }
+    }
+
+    .h-hero{
+      font-size: var(--fs-hero);
+      margin: 0 0 10px;
+      letter-spacing:.2px;
+      line-height: 1.18;
+    }
+    .h2{
+      font-size: var(--fs-h2);
+      margin: 0 0 8px;
+      letter-spacing:.2px;
+      font-weight: 850;
+    }
+    .p{
+      font-size: var(--fs-body);
+      color: var(--muted);
+      margin: 0 0 10px;
+    }
+
+    .badgeRow{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top: 10px;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.06);
+      font-size: var(--fs-small);
+      color: rgba(255,255,255,.85);
+    }
+    .swatch{
+      width: 12px; height: 12px; border-radius: 50%;
+      box-shadow: 0 0 0 4px rgba(255,255,255,.06);
+    }
+
+    .callout{
+      margin-top: 12px;
+      padding: 14px 14px;
+      border-radius: 18px;
+      background: rgba(0,209,222,.12);
+      border: 1px solid rgba(0,209,222,.24);
+      color: rgba(255,255,255,.88);
+      font-size: var(--fs-body);
+    }
+    .callout b{ color:#fff; }
+
+    /* ===== KPIs ===== */
+    .kpis{
+      display:grid;
+      grid-template-columns: repeat(2,1fr);
+      gap: 14px;
+    }
+    .kpi{
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 18px;
+      background: rgba(255,255,255,.06);
+      padding: 16px;
+      position:relative;
+      overflow:hidden;
+    }
+    .kpi .label{
+      font-size: var(--fs-small);
+      color: var(--muted2);
+      margin-bottom: 8px;
+    }
+    .kpi .value{
+      font-size: clamp(28px, 2.1vw, 44px);
+      font-weight: 900;
+      letter-spacing: .2px;
+      margin-bottom: 6px;
+      line-height: 1.05;
+    }
+    .kpi .note{
+      font-size: var(--fs-small);
+      color: var(--muted2);
+    }
+    .kpi.claims .value{ color: var(--claims); }
+    .kpi.providers .value{ color: var(--providers); }
+    .kpi .miniValue{
+      font-size: 16px;
+      font-weight: 850;
+      color: rgba(255,255,255,.88);
+      margin-top: 6px;
+    }
+
+    /* ===== Steps ===== */
+    .steps{ display:flex; flex-direction:column; gap: 12px; margin-top: 12px; }
+    .step{
+      padding: 14px 14px;
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 18px;
+      background: rgba(255,255,255,.05);
+    }
+    .stepHead{
+      display:flex;
+      justify-content:space-between;
+      align-items:baseline;
+      gap: 10px;
+      flex-wrap:wrap;
+      margin-bottom: 8px;
+    }
+    .stepHead h3{
+      margin:0;
+      font-size: clamp(15px, 1.1vw, 18px);
+      font-weight: 850;
+      letter-spacing:.2px;
+    }
+    .tag{
+      font-size: 12px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.18);
+      color: rgba(255,255,255,.78);
+      background: rgba(255,255,255,.05);
+    }
+    .step p{
+      margin:0;
+      color: var(--muted);
+      font-size: var(--fs-body);
+    }
+
+    /* ===== Builder ===== */
+    .chips{ display:flex; flex-wrap:wrap; gap: 10px; }
+    .chip{
+      cursor:pointer;
+      user-select:none;
+      border: 1px solid rgba(255,255,255,.18);
+      padding: 12px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      font-size: var(--fs-body);
+      color: var(--muted);
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+    }
+    .chip:hover{ transform: translateY(-1px); background: rgba(255,255,255,.10); }
+    .chip.on{
+      color: var(--text);
+      background: rgba(255,255,255,.12);
+      border-color: rgba(255,255,255,.28);
+    }
+    .chip .dot{
+      width: 11px; height: 11px; border-radius: 50%;
+      background: rgba(255,255,255,.25);
+      box-shadow: 0 0 0 4px rgba(255,255,255,.06);
+    }
+    .chip.on .dot{ background: var(--turq); box-shadow: 0 0 0 4px rgba(0,209,222,.12); }
+
+    .formula{
+      margin-top: 12px;
+      border: 1px dashed rgba(255,255,255,.26);
+      background: rgba(255,255,255,.05);
+      border-radius: 18px;
+      padding: 14px 14px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      color: rgba(255,255,255,.90);
+      font-size: clamp(13px, .95vw, 15px);
+      overflow:auto;
+      white-space: nowrap;
+    }
+
+    /* ===========================================================
+       FLOWCHART (REPLACED WITH YOUR NO-SCROLL SVG FLOW)
+       =========================================================== */
+
+    /* Make this section full width like the rest */
+    .flowHero{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 14px;
+      align-items:flex-end;
+      justify-content:space-between;
+      margin-bottom: 12px;
+    }
+    .flowHero .left{ max-width: 980px; }
+    .flowHint{
+      font-size: var(--fs-body);
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .flowLinks{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      justify-content:flex-end;
+      align-items:center;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.88);
+      font-size: var(--fs-small);
+      cursor:pointer;
+      user-select:none;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+      white-space: nowrap;
+      text-decoration:none;
+    }
+    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.10); }
+    .btn .dot{
+      width: 10px; height: 10px; border-radius: 50%;
+      background: rgba(255,255,255,.25);
+      box-shadow: 0 0 0 4px rgba(255,255,255,.06);
+    }
+    .btn.primary{ border-color: rgba(0,209,222,.35); background: rgba(0,209,222,.10); }
+    .btn.primary .dot{ background: var(--turq); box-shadow: 0 0 0 4px rgba(0,209,222,.12); }
+    .btn.warn{ border-color: rgba(255,209,102,.35); background: rgba(255,209,102,.08); }
+    .btn.warn .dot{ background: var(--gold); box-shadow: 0 0 0 4px rgba(255,209,102,.12); }
+
+    /* Flowchart card styling */
+    .flowCard{
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      border:1px solid var(--border);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .flowHead{
+      padding:14px 16px;
+      border-bottom:1px solid rgba(255,255,255,.14);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .flowHead h3{
+      margin:0;
+      font-size:16px;
+      letter-spacing:.2px;
+      font-weight: 850;
+    }
+    .hintSmall{ color: rgba(255,255,255,.65); font-size: 12px; }
+
+    .btnrow{ display:flex; gap:10px; flex-wrap:wrap; }
+    .flowBtn{
+      cursor:pointer;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius: 12px;
+      font-size:12px;
+    }
+    .flowBtn:hover{ background: rgba(255,255,255,.09); }
+
+    .flowContent{ padding:14px 14px 18px; }
+
+    /* Responsive SVG (no scroll) */
+    .chart{
+      width:100%;
+      height:auto;
+      display:block;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.16);
+    }
+
+    .toast{
+      position:fixed;
+      right:14px;
+      bottom:14px;
+      max-width: 360px;
+      border:1px solid rgba(255,255,255,.14);
+      border-radius: 14px;
+      background: rgba(0,0,0,.42);
+      backdrop-filter: blur(10px);
+      padding:10px 12px;
+      color: rgba(255,255,255,.72);
+      font-size:12px;
+      box-shadow: var(--shadow);
+      display:none;
+      z-index: 99999;
+    }
+
+    /* ===== Final block ===== */
+    .finalGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 12px;
+    }
+    @media (max-width: 1000px){ .finalGrid{ grid-template-columns: 1fr; } }
+
+    .foot{
+      margin-top: 16px;
+      color: rgba(255,255,255,.55);
+      font-size: 13px;
+      text-align:center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <div class="wrap">
+
+      <!-- TOPBAR -->
+      <div class="topbar" id="top">
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <div>
+            <h1>CHW/CHR Claims-Based Definition (2025 • Through Aug)</h1>
+            <p>Providers <b style="color:var(--providers)">yellow</b> • Claims <b style="color:var(--claims)">red</b> • Interactive narrative + flow</p>
+          </div>
+        </div>
+
+        <div class="nav">
+          <div class="pill active" data-jump="#story"><span class="dot"></span>Story</div>
+          <div class="pill" data-jump="#builder"><span class="dot"></span>Definition Builder</div>
+          <div class="pill" data-jump="#flow"><span class="dot"></span>Flow (Full)</div>
+          <div class="pill" data-jump="#final"><span class="dot"></span>Final</div>
+        </div>
+      </div>
+
+      <!-- STORY + KPIs -->
+      <div class="section grid2" id="story">
+        <div class="card">
+          <div class="inner">
+            <h2 class="h-hero">From codes → to a defensible CHW/CHR definition</h2>
+            <p class="p">
+              This page summarizes how we refined the CHW/CHR definition using multiple claim signals:
+              procedure codes (98960–98962), Z-codes in Dx1/Dx2, taxonomy (172V00000X), provider name patterns (“…CHW”),
+              and rendering specialty (230).
+            </p>
+
+            <div class="badgeRow">
+              <span class="badge"><span class="swatch" style="background:var(--claims)"></span><b>Claims</b> (red)</span>
+              <span class="badge"><span class="swatch" style="background:var(--providers)"></span><b>Providers</b> (yellow)</span>
+              <span class="badge"><span class="swatch" style="background:var(--turq)"></span>Interactive</span>
+              <span class="badge"><span class="swatch" style="background:var(--violet)"></span>Definition builder</span>
+            </div>
+
+            <div class="callout">
+              <b>Key insight:</b> Taxonomy <b>172V00000X</b> was informative but inconsistent on its own, so the final approach uses
+              a multi-signal OR-based rule to capture CHW/CHR services more reliably.
+            </div>
+
+            <div class="steps" id="steps"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="inner">
+            <h2 class="h2">Live KPIs</h2>
+            <p class="p" style="margin-bottom:12px;">
+              Select a node result (right panel) to update these numbers.
+            </p>
+
+            <div class="kpis">
+              <div class="kpi claims">
+                <div class="label">Unique claims (red)</div>
+                <div class="value" id="kpiClaims">—</div>
+                <div class="note" id="kpiClaimsNote">Select a step</div>
+              </div>
+
+              <div class="kpi providers">
+                <div class="label">Providers (yellow)</div>
+                <div class="value" id="kpiProviders">—</div>
+                <div class="note" id="kpiProvidersNote">Select a step</div>
+              </div>
+
+              <div class="kpi">
+                <div class="label">Definition focus</div>
+                <div class="miniValue" id="kpiFocus">—</div>
+                <div class="note">Why this step matters</div>
+              </div>
+
+              <div class="kpi">
+                <div class="label">Dataset window</div>
+                <div class="miniValue">2025 → Aug</div>
+                <div class="note">Whole-year-to-date claims slice</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BUILDER -->
+      <div class="section" id="builder">
+        <div class="card">
+          <div class="inner">
+            <h2 class="h2">Definition Builder</h2>
+            <p class="p">
+              Toggle signals to render the operational definition as one OR-based expression.
+              (Use this to communicate or test sensitivity.)
+            </p>
+
+            <div class="chips">
+              <div class="chip on" data-signal="chw_name"><span class="dot"></span>Provider name ends with “CHW”</div>
+              <div class="chip on" data-signal="spec_230"><span class="dot"></span>Rendering specialty = 230</div>
+              <div class="chip on" data-signal="pc_9896"><span class="dot"></span>Procedure codes 98960–98962</div>
+              <div class="chip on" data-signal="z_codes"><span class="dot"></span>Z-codes in Dx1/Dx2</div>
+              <div class="chip" data-signal="tax_172"><span class="dot"></span>Taxonomy 172V00000X (tested)</div>
+            </div>
+
+            <div class="formula" id="formula"></div>
+
+            <div class="callout" style="background:rgba(255,209,102,.10); border-color: rgba(255,209,102,.22);">
+              Tip: Keep taxonomy toggled <b>off</b> when presenting the finalized rule; toggle it <b>on</b> for sensitivity checks.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FLOW (REPLACED WITH YOUR NO-SCROLL SVG FLOWCHART) -->
+      <div class="section" id="flow">
+        <div class="card">
+          <div class="inner">
+
+            <div class="flowHero">
+              <div class="left">
+                <h2 class="h2">Flowchart — Full View</h2>
+                <p class="flowHint">
+                  Full-size, auto-scales to your screen (no scroll). Includes “Copy summary” and “Download SVG”.
+                </p>
+              </div>
+
+              <div class="flowLinks">
+                <a class="btn primary" href="https://www.hca.nm.gov/wp-content/uploads/25-10-Implementation-of-CHW-and-CHR-Updates.pdf" target="_blank" rel="noopener">
+                  <span class="dot"></span> CHW LOD (PDF)
+                </a>
+                <a class="btn warn" href="file:///C:/Users/KTRIPURARI/Downloads/chw_last_report.html">
+                  <span class="dot"></span> Broader v1 (local)
+                </a>
+                <a class="btn warn" href="file:///C:/Users/KTRIPURARI/Downloads/ch3%20koushik%20report.html">
+                  <span class="dot"></span> Broader v2 (local)
+                </a>
+              </div>
+            </div>
+
+            <section class="flowCard">
+              <div class="flowHead">
+                <h3>Flowchart diagram</h3>
+                <div class="btnrow">
+                  <button class="flowBtn" id="copyBtn" type="button">Copy summary</button>
+                  <button class="flowBtn" id="downloadSvgBtn" type="button">Download SVG</button>
+                </div>
+              </div>
+
+              <div class="flowContent">
+                <svg class="chart" id="flowSvg" xmlns="http://www.w3.org/2000/svg"
+                     viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid meet" role="img" aria-label="CHW Flowchart">
+                  <defs>
+                    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+                      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="rgba(0,0,0,.55)"/>
+                    </filter>
+
+                    <marker id="arrowHead" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+                      <path d="M0,0 L12,6 L0,12 Z" fill="rgba(234,240,255,.75)" />
+                    </marker>
+
+                    <style>
+                      .box{ fill: rgba(255,255,255,.07); stroke: rgba(255,255,255,.18); stroke-width: 2; rx: 18; filter:url(#softShadow); }
+                      .boxT{ stroke: rgba(0,122,135,.70); }
+                      .boxG{ stroke: rgba(255,198,0,.70); }
+                      .boxC{ stroke: rgba(186,12,47,.70); }
+
+                      .title{ font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial; font-size: 18px; fill: rgba(234,240,255,.95); font-weight: 800; }
+                      .label{ font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial; font-size: 13px; fill: rgba(234,240,255,.80); }
+                      .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New"; font-size: 13px; fill: rgba(234,240,255,.92); }
+
+                      .arrow{ stroke: rgba(234,240,255,.60); stroke-width: 3; fill: none; marker-end: url(#arrowHead); }
+                      .caption{ font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial; font-size: 12px; fill: rgba(234,240,255,.70); }
+                    </style>
+                  </defs>
+
+                  <!-- Row 1 (center) -->
+                  <rect class="box boxG" x="450" y="40" width="300" height="120"/>
+                  <text class="title" x="600" y="78" text-anchor="middle">Whole claims</text>
+                  <text class="label" x="600" y="104" text-anchor="middle">Universe: 2025 through Aug</text>
+                  <text class="caption" x="600" y="128" text-anchor="middle">Start here</text>
+
+                  <!-- Row 2 (3 boxes) -->
+                  <rect class="box boxT" x="80"  y="220" width="300" height="120"/>
+                  <text class="title" x="230" y="258" text-anchor="middle">9896 codes</text>
+                  <text class="mono"  x="230" y="288" text-anchor="middle">N1,N2 = (1056, 48)</text>
+
+                  <rect class="box boxG" x="450" y="220" width="300" height="120"/>
+                  <text class="title" x="600" y="258" text-anchor="middle">Z-codes</text>
+                  <text class="mono"  x="600" y="288" text-anchor="middle">N1,N2 = (26649, 796)</text>
+
+                  <rect class="box boxG" x="820" y="220" width="300" height="120"/>
+                  <text class="title" x="970" y="258" text-anchor="middle">9896 OR Z-codes</text>
+                  <text class="mono"  x="970" y="288" text-anchor="middle">N1,N2 = (27392, 815)</text>
+
+                  <!-- Row 3 (2 boxes) -->
+                  <rect class="box boxG" x="300" y="400" width="300" height="120"/>
+                  <text class="title" x="450" y="438" text-anchor="middle">9896 AND Z-codes</text>
+                  <text class="mono"  x="450" y="468" text-anchor="middle">N1,N2 = (313, 22)</text>
+
+                  <rect class="box" x="630" y="400" width="300" height="120"/>
+                  <text class="title" x="780" y="438" text-anchor="middle">Others</text>
+                  <text class="mono"  x="780" y="468" text-anchor="middle">N1,N2 = (27092, 808)</text>
+
+                  <!-- Row 4 (2 boxes) -->
+                  <rect class="box boxC" x="300" y="580" width="300" height="120"/>
+                  <text class="title" x="450" y="618" text-anchor="middle">With 172 taxonomy</text>
+                  <text class="mono"  x="450" y="648" text-anchor="middle">N1,N2 = (76, 10)</text>
+                  <text class="caption" x="450" y="672" text-anchor="middle">172V00000X</text>
+
+                  <rect class="box boxC" x="630" y="580" width="300" height="120"/>
+                  <text class="title" x="780" y="618" text-anchor="middle">Without 172 taxonomy</text>
+                  <text class="mono"  x="780" y="648" text-anchor="middle">N1,N2 = (237, 16)</text>
+
+                  <!-- Row 5 (2 boxes) -->
+                  <rect class="box boxC" x="140" y="740" width="360" height="120"/>
+                  <text class="title" x="320" y="778" text-anchor="middle">CHW prov_name OR</text>
+                  <text class="title" x="320" y="800" text-anchor="middle">specialty = 230</text>
+                  <text class="mono"  x="320" y="832" text-anchor="middle">N1,N2 = (76, 8)</text>
+
+                  <rect class="box boxC" x="700" y="740" width="360" height="120"/>
+                  <text class="title" x="880" y="778" text-anchor="middle">CHW prov_name OR</text>
+                  <text class="title" x="880" y="800" text-anchor="middle">specialty = 230</text>
+                  <text class="mono"  x="880" y="832" text-anchor="middle">N1,N2 = (512, 22)</text>
+
+                  <!-- Final (center bottom) -->
+                  <rect class="box boxG" x="450" y="740" width="300" height="120"/>
+                  <text class="title" x="600" y="776" text-anchor="middle">Final rule</text>
+                  <text class="label" x="600" y="804" text-anchor="middle">(9896 AND Z) OR (CHW name / spec=230)</text>
+                  <text class="mono"  x="600" y="834" text-anchor="middle">N1,N2 = (688, 33)</text>
+                  <text class="caption" x="600" y="856" text-anchor="middle">~25 confirmed (manual review)</text>
+
+                  <!-- Arrows -->
+                  <path class="arrow" d="M600 160 C600 190, 230 190, 230 220"/>
+                  <path class="arrow" d="M600 160 C600 190, 600 190, 600 220"/>
+                  <path class="arrow" d="M600 160 C600 190, 970 190, 970 220"/>
+
+                  <path class="arrow" d="M970 340 C970 370, 450 370, 450 400"/>
+                  <path class="arrow" d="M970 340 C970 370, 780 370, 780 400"/>
+
+                  <path class="arrow" d="M450 520 C450 550, 450 550, 450 580"/>
+                  <path class="arrow" d="M450 520 C450 550, 780 550, 780 580"/>
+
+                  <path class="arrow" d="M450 520 C450 690, 600 690, 600 740"/>
+
+                  <path class="arrow" d="M320 740 C320 710, 520 710, 520 740"/>
+                  <path class="arrow" d="M880 740 C880 710, 680 710, 680 740"/>
+
+                  <path class="arrow" d="M450 700 C450 725, 320 725, 320 740"/>
+                </svg>
+              </div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- FINAL -->
+      <div class="section" id="final">
+        <div class="card">
+          <div class="inner">
+            <h2 class="h2">Final takeaway</h2>
+            <p class="p">
+              Applying the finalized OR-based definition flagged <b style="color:var(--providers)">33 providers</b>.
+              Manual validation confirmed <b>25</b> as CHW/CHR with <b>4</b> needing further review (total likely = <b>29</b>).
+            </p>
+
+            <div class="finalGrid">
+              <div class="step">
+                <div class="stepHead">
+                  <h3>Final definition (plain language)</h3>
+                  <span class="tag">Operational rule</span>
+                </div>
+                <p>
+                  Select providers/claims if <b>any</b> is true:
+                  provider name ends with “CHW”, OR specialty = 230, OR 98960–98962 and/or Z-codes in Dx1/Dx2.
+                </p>
+              </div>
+
+              <div class="step">
+                <div class="stepHead">
+                  <h3>Why taxonomy wasn’t primary</h3>
+                  <span class="tag">Evidence</span>
+                </div>
+                <p>
+                  We observed substantial 172V00000X volume even without 9896/Z signals, and also many 9896/Z records without 172V00000X,
+                  indicating taxonomy alone is inconsistent for primary identification.
+                </p>
+              </div>
+            </div>
+
+            <div class="foot">
+              Full-width page • Bigger typography • Flow section uses auto-fit SVG (no scroll)
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="toast" id="toast">Copied.</div>
+
+    </div>
+  </div>
+
+  <script>
+    // -------------------------
+    // Data (your key counts)
+    // -------------------------
+    const DATA = {
+      storySteps: [
+        { title: "Baseline analysis window", tag: "2025 → Aug",
+          text: "Analyzed all 2025 claims through August and explored multiple CHW/CHR signals across procedure codes, diagnosis codes, taxonomy, provider name patterns, and specialty." },
+        { title: "Subsample creation (broad)", tag: "OR test",
+          text: "Used an OR condition (9896-series OR Z-codes) to form an exploration subsample, then tightened criteria based on billing guidance (Kody)." },
+        { title: "Tighter CHW service slice", tag: "AND filter",
+          text: "Applied 9896-series with Z-codes to align with CHW service signals, yielding ~313 claims and 22 providers." },
+        { title: "Taxonomy sensitivity check", tag: "172V00000X",
+          text: "Within the 9896/Z slice: ~76 claims and 10 providers had 172V00000X. Outside 9896/Z: ~558 claims and 12 providers still had 172V00000X, suggesting taxonomy alone is unreliable." },
+        { title: "LOD-aligned signals", tag: "Name + specialty",
+          text: "Added a provider-name ending pattern (“…CHW”) and rendering specialty 230 (from the Letter of Direction). Specialty appeared more consistent in observed patterns." },
+        { title: "Final OR-based definition", tag: "Final",
+          text: "Final rule uses multiple signals: name ending with CHW OR specialty=230 OR (98960–98962 and/or Z-codes in Dx1/Dx2). Applying it flagged ~33 providers; manual validation: 25 confirmed + 4 need review → 29 likely." }
+      ],
+      nodes: {
+        and9896z: {
+          title: "9896 AND Z-codes",
+          focus: "Tight service slice",
+          desc: "Tighter slice used for CHW service signals: 9896-series in combination with Z-codes.",
+          n1: 313, n2: 22,
+          noteClaims: "Subsample: 9896 ∧ Z",
+          noteProviders: "Subsample providers"
+        },
+        taxWithin: {
+          title: "Within (9896 ∧ Z): 172V00000X",
+          focus: "Taxonomy check",
+          desc: "Sensitivity check inside the 9896/Z slice: who also has 172V00000X taxonomy.",
+          n1: 76, n2: 10,
+          noteClaims: "Has 172 taxonomy (within 9896/Z)",
+          noteProviders: "Has 172 taxonomy (within 9896/Z)"
+        },
+        taxOutside: {
+          title: "Outside (9896/Z): 172V00000X",
+          focus: "Inconsistency signal",
+          desc: "Unexpected 172V00000X volume outside 9896/Z signals; supports why taxonomy alone is unreliable.",
+          n1: 558, n2: 12,
+          noteClaims: "Has 172 taxonomy (outside 9896/Z)",
+          noteProviders: "Has 172 taxonomy (outside 9896/Z)"
+        },
+        final: {
+          title: "Final OR-based definition",
+          focus: "Operational definition",
+          desc: "Final rule: provider name ends with CHW OR specialty=230 OR (98960–98962 and/or Z-codes in Dx1/Dx2).",
+          n1: 688, n2: 33,
+          noteClaims: "Flow total for final rule",
+          noteProviders: "Providers flagged by final rule"
+        }
+      }
+    };
+
+    // -------------------------
+    // Smooth jump nav
+    // -------------------------
+    document.querySelectorAll(".pill").forEach(p => {
+      p.addEventListener("click", () => {
+        document.querySelectorAll(".pill").forEach(x => x.classList.remove("active"));
+        p.classList.add("active");
+        const target = document.querySelector(p.dataset.jump);
+        if (target) target.scrollIntoView({behavior:"smooth", block:"start"});
+      });
+    });
+
+    // -------------------------
+    // Render story steps
+    // -------------------------
+    const stepsEl = document.getElementById("steps");
+    DATA.storySteps.forEach(s => {
+      const div = document.createElement("div");
+      div.className = "step";
+      div.innerHTML = `
+        <div class="stepHead">
+          <h3>${escapeHtml(s.title)}</h3>
+          <span class="tag">${escapeHtml(s.tag)}</span>
+        </div>
+        <p>${escapeHtml(s.text)}</p>
+      `;
+      stepsEl.appendChild(div);
+    });
+
+    // -------------------------
+    // Definition builder
+    // -------------------------
+    const chips = Array.from(document.querySelectorAll(".chip"));
+    const formulaEl = document.getElementById("formula");
+
+    const signalLabels = {
+      chw_name: "ENDS_WITH(UPPER(rndr_prov_name), 'CHW')",
+      spec_230: "(rndr_prov_specialty = '230')",
+      pc_9896: "(proc_cd IN ('98960','98961','98962'))",
+      z_codes: "(diag_cd1 IN Z_CODES OR diag_cd2 IN Z_CODES)",
+      tax_172: "(rndr_taxonomy_cd = '172V00000X')"
+    };
+
+    function buildFormula(){
+      const on = chips.filter(c => c.classList.contains("on")).map(c => c.dataset.signal);
+      if (on.length === 0){
+        formulaEl.textContent = "-- Toggle at least one signal to build a definition --";
+        return;
+      }
+      const expr = on.map(k => signalLabels[k]).join(" OR ");
+      formulaEl.textContent = "WHERE " + expr + ";";
+    }
+    chips.forEach(c => {
+      c.addEventListener("click", () => {
+        c.classList.toggle("on");
+        buildFormula();
+      });
+    });
+    buildFormula();
+
+    // -------------------------
+    // KPI + detail helpers
+    // -------------------------
+    const kpiClaims = document.getElementById("kpiClaims");
+    const kpiProviders = document.getElementById("kpiProviders");
+    const kpiClaimsNote = document.getElementById("kpiClaimsNote");
+    const kpiProvidersNote = document.getElementById("kpiProvidersNote");
+    const kpiFocus = document.getElementById("kpiFocus");
+
+    function fmt(n){
+      if (n === null || n === undefined || !Number.isFinite(n)) return "—";
+      return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    function animateNumber(el, target){
+      if (target === null || target === undefined || !Number.isFinite(target)) {
+        el.textContent = "—";
+        return;
+      }
+      const start = 0;
+      const duration = 650;
+      const t0 = performance.now();
+      function easeOutCubic(x){ return 1 - Math.pow(1 - x, 3); }
+      function tick(t){
+        const p = Math.min(1, (t - t0) / duration);
+        const val = Math.round(start + (target - start) * easeOutCubic(p));
+        el.textContent = fmt(val);
+        if (p < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    function selectNode(key){
+      const n = DATA.nodes[key];
+      if (!n) return;
+
+      kpiFocus.textContent = n.focus;
+      kpiClaimsNote.textContent = n.noteClaims || "";
+      kpiProvidersNote.textContent = n.noteProviders || "";
+
+      animateNumber(kpiClaims, n.n1);
+      animateNumber(kpiProviders, n.n2);
+    }
+
+    // Default selection
+    selectNode("final");
+
+    // -------------------------
+    // FLOW: Copy summary + download SVG
+    // -------------------------
+    const toast = document.getElementById("toast");
+
+    document.getElementById("copyBtn").addEventListener("click", async () => {
+      const text = [
+        "CHW Flowchart (2025 through Aug)",
+        "- 9896 codes (N1,N2) = (1056,48)",
+        "- Z-codes (N1,N2) = (26649,796)",
+        "- 9896 OR Z (N1,N2) = (27392,815)",
+        "- 9896 AND Z (N1,N2) = (313,22)",
+        "- Others (N1,N2) = (27092,808)",
+        "- Within AND: with 172 taxonomy (76,10); without 172 (237,16)",
+        "- Provider signal (CHW name OR specialty=230): (76,8) and (512,22)",
+        "- Final rule: (9896 AND Z) OR (CHW name OR spec=230) = (688,33); ~25 confirmed (manual review)"
+      ].join("\n");
+
+      try{
+        await navigator.clipboard.writeText(text);
+        toast.textContent = "Copied summary to clipboard.";
+        toast.style.display = "block";
+        setTimeout(()=> toast.style.display="none", 1600);
+      }catch(e){
+        toast.textContent = "Copy failed. You can manually copy the text from this page.";
+        toast.style.display = "block";
+        setTimeout(()=> toast.style.display="none", 2000);
+      }
+    });
+
+    document.getElementById("downloadSvgBtn").addEventListener("click", () => {
+      const svg = document.getElementById("flowSvg");
+      const serializer = new XMLSerializer();
+      const source = serializer.serializeToString(svg);
+      const blob = new Blob([source], {type: "image/svg+xml;charset=utf-8"});
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "chw_flowchart.svg";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    function escapeHtml(s){
+      return String(s)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+  </script>
+</body>
+</html>
